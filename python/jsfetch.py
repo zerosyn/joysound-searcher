@@ -31,9 +31,9 @@ def __param( keyword = '', like_type = 1, page = 1 ):
 
 def search( keyword, search_type, like_type, page ):
 	if search_type == SEARCH_SONG:
-		path = 'artistsearchword'
-	elif search_type == SEARCH_ARTIST:
 		path = 'songsearchword'
+	elif search_type == SEARCH_ARTIST:
+		path = 'artistsearchword'
 	elif search_type == SEARCH_SOURCE:
 		path = 'titlesearchword'
 	else:
