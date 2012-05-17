@@ -106,6 +106,10 @@ var UIResult = (function(){
 	function _changeTitle( title ){
 		document.title = title || 'もえゴエ';
 	}
+	function _resetBackgroundColor(){
+		var li_num_odd = ( dom.children( 'li' ).length % 2 != 0 );
+		$('body').toggleClassBy( li_num_odd, 'even' );
+	}
 	function showQryList( list ){
 		var html = '';
 		var i;
@@ -114,13 +118,15 @@ var UIResult = (function(){
 		}
 		_changeTitle( '' );
 		dom.html( html );
+		_resetBackgroundColor();
 		//TODO abstract
-		UIFooter.randomTip();
+		//UIFooter.randomTip();
 	}
 	function showQuery( qry ){
 		_changeTitle( qry.getTitle() );
 		dom.html( _renderQuery( qry, true ) + _renderResult( qry ) );
-		UIFooter.hideTip();
+		_resetBackgroundColor();
+		//UIFooter.hideTip();
 	}
 
 	return {

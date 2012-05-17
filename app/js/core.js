@@ -19,6 +19,14 @@ String.prototype.htmlEntities = function(){
     return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+$.prototype.toggleClassBy = function( condition, cls ){
+	if( condition ){
+		this.addClass( cls );
+	} else {
+		this.removeClass( cls );
+	}
+}
+
 var HashManager = (function(){
 	function isEmpty(){
 		return !location.hash || location.hash == '#' || location.hash == '##';
