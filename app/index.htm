@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-startup-image" href="/startup.png">
+	<link rel="stylesheet" type="text/css" media="all" href="style.css?t=120507" />
+	<title>もえゴエ</title>
+</head>
+<body>
+	<nav class="nofocus">
+		<div class="bar">
+			<form>
+				<input type="search" id="keyword" name="keyword" placeholder="搜索Joysound">
+				<span class="clean">&nbsp;×&nbsp;</span>
+				<input type="submit" id="submit" value="">
+				<input type="hidden" name="liketype" value="1">
+				<input type="hidden" name="searchtype" value="2">
+			</form>
+			<ul id="nav_bottom">
+				<li class="option_group" data-name="liketype">
+					<table>
+						<tr>
+							<td><a class="option" data-value="2">部分一致</a></td>
+							<td><a class="option selected" data-value="1">开头一致</a></td>
+							<td><a class="option" data-value="3">全部一致</a></td>
+						</tr>
+					</table>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<section>
+		<ul id="result">
+		</ul>
+	</section>
+	<footer>
+		<article id="help" style="display:none;">
+			<p><em>もえゴエ</em>是Zeroくん为解决魔都Joysound系统点歌难问题开发的金坷垃1号（误</p>
+			<p>在这里搜索到的曲目编号可以直接输入Joysound机，插歌加歌一步到位</p>
+			<p>还支持多种过滤条件、同时进行多组查询、以及记录查询历史</p>
+			<p>并专门为移动设备优化，方便在店内随时使用</p>
+			<p>所以拿起你的智能姬，丢掉点歌器吧XD</p>
+			<p>任何问题、意见请在新浪微博<em>@moegoe</em></p>
+		</article>
+		<p id="tips"></p>
+	</footer>
+
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery.ba-hashchange.min.js"></script>
+	<script src="js/core.js"></script>
+	<script src="js/data.js"></script>
+	<script src="js/ui.js"></script>
+	<script src="js/events.js"></script>
+</body>
+</html>
