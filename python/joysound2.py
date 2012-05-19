@@ -79,21 +79,25 @@ def analyseSongList( chunk, list_type = LIST_TYPE_FULL ):
 		gid, title = analyseTd( td_list.eq(1), r'gakkyokuId=(\d+)' )
 		if not gid: return
 
+		song = dict( gid=gid, title=title )
+
 		#singer td
 		if list_type != LIST_TYPE_NO_ARTIST:
 			td_index_singer = 2
 			artist_id, artist = analyseTd( td_list.eq( td_index_singer ), r'artistId=(\d+)' )
+			song.update( artist_id=artist_id, artist=artist )
 
 		#source td
 		if list_type != LIST_TYPE_NO_SOURCE:
 			td_index_source = 3
 			source_id, source = analyseTd( td_list.eq( td_index_source ), r'titleCd=(\d+)' )
+			song.update( source_id=source, source=source )
 
 		#kasi td
 		td_index_kasi = 4 if list_type == LIST_TYPE_FULL else 3;
 		song_no, unused = analyseTd( td_list.eq( td_index_kasi ), r'_selSongNo_(\d+)_songwords' )
-
-		song = dict( gid=gid, title=title, artist_id=artist_id, artist=artist, source_id=source, source=source, song_no=song_no, v2_flag=V2_UNKNOWN )
+		song.update( song_no=song_no, v2_flag=V2_UNKNOWN )
+		
 		song_list.append( song )
 
 	#result table

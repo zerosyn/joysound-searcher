@@ -4,12 +4,14 @@
 import threading
 import jsfetch
 import joysound2
+from model import Songs
 
 def search( keyword, search_type, like_type, page ):
 	page = int( page ) if int( page ) > 0 else 1
 	chunk = jsfetch.search( keyword, search_type, like_type, page )
 	#TODO analyse artist list & bangumi list
 	song_list, count = joysound2.analyseSongList( chunk )
+	song_list = Songs( song_list = song_list ).export()
 	return dict(
 		count = count,
 		page = page,
@@ -21,6 +23,7 @@ def songlist( identity, search_type, page ):
 	chunk = jsfetch.songList( identity, search_type, page )
 	list_type = joysound2.LIST_TYPE_NO_ARTIST if search_type == jsfetch.SEARCH_ARTIST else joysound2.LIST_TYPE_NO_SOURCE
 	song_list, count = joysound2.analyseSongList( chunk, list_type )
+	song_list = Songs( song_list = song_list ).export()
 	return dict(
 		count = count,
 		page = page,
@@ -34,13 +37,12 @@ class FetchThread( threading.Thread ):
 		self.result_set = result_set
 
 	def run( self ):
-		#Log.log( 'Start fetching %s ...\n' % self.gid )
 		chunk = jsfetch.songDetail( self.gid )
 		self.result_set[self.gid] = joysound2.analyseSong( chunk )
-		#Log.log( 'Finish fetching %s\n' % self.gid )
 
 def getDetails( gids ):
-	result = { gid:{} for gid in gids }
+	songs = Songs( gids = gids )
+	result = { gid:{} for gid in songs.remain_gids }
 	thread_list = []
 	for gid in gids:
 		th = FetchThread( gid, result )
@@ -52,14 +54,14 @@ def getDetails( gids ):
 	for th in thread_list:
 		th.join()
 
-	return result
+	return songs.merge( result ).details
 
 
 if __name__ == '__main__':
 	import json, sys
-	print json.dumps( songlist( 1217, 1, 1 ) )
-	#k = sys.argv[1]
-	#l = int( sys.argv[2] )
-	#p = int( sys.argv[3] )
-	#if k:
-		#print json.dumps( search( k, 2, l, p ) )
+	#print json.dumps( songlist( 1217, 1, 1 ) )
+	k = sys.argv[1]
+	l = int( sys.argv[2] )
+	p = int( sys.argv[3] )
+	if k:
+		print json.dumps( search( k, 2, l, p ) )

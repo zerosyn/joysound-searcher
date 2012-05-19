@@ -21,6 +21,7 @@ if __name__ == '__main__':
 '''
 from urlparse import parse_qs
 from urllib2 import unquote, quote
+import traceback
 import json
 import x
 
@@ -56,8 +57,8 @@ def application(environ, start_response):
 
 		status = '200 OK'
 
-	except:
-		result = ''
+	except Exception, e:
+		result = traceback.format_exc()
 		status = '500 Server Error'
 
 	finally:
