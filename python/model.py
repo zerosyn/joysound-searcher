@@ -29,7 +29,7 @@ class Songs:
 	def merge( self, details ):
 		self.db.saveDetails( details )
 		for gid in details:
-			if( details[gid] ):
+			if details[gid]:
 				self.details[gid].update( details[gid] )
 				self.remain_gids.remove( gid )
 		return self

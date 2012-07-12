@@ -18,3 +18,14 @@ def benchmark():
 	t2 = Timer( "analyseSongList( chunk )", "from joysound2 import analyseSongList; chunk = '''%s'''" % (chunk,) )
 	print t1.timeit( 10 ) # 4.2660381794
 	print t2.timeit( 10 ) # 0.319856882095
+
+def test():
+	import jsfetch
+	import joysound2
+	import json
+	chunk = jsfetch.songDetail( 585492 )
+	result = joysound2.analyseSong( chunk )
+	print json.dump( result )
+
+if __name__ == '__main__':
+	test()

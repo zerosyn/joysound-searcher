@@ -21,6 +21,7 @@ def analyseSong( chunk ):
 	p = re.compile( r'ranking\.htm.*\?selSongNo=(\d+)">(.+)<\/a>[^!]+対応機種([^!]+)<!--' )
 	matches = p.finditer( chunk[start:] )
 	if matches:
+		# multi song in a detail page
 		sub_list = []
 		for m in matches:
 			v2_flag = V2_EXIST if m.group(3).find( 'HyperJoyV2' ) != -1 else V2_NOTEXIST
@@ -30,12 +31,15 @@ def analyseSong( chunk ):
 				'v2_flag': v2_flag,
 			}
 			sub_list.append( subsong )
-			if v2_flag:
+			# use which has hyperjoyv2 tag
+			if v2_flag == V2_EXIST:
 				result.update( subsong )
+		# use first as default
 		if 'v2_flag' not in result:
 			result.update( sub_list[0] )
-		#if len( sub_list ) > 1:
-			#TODO
+		# save multi song
+		if len( sub_list ) > 1:
+			result['sublist'] = sub_list
 
 	start2 = chunk.find( 'artistId=' )
 	end2 = chunk.find( '/a', start2 ) + 3
@@ -47,7 +51,7 @@ def analyseSong( chunk ):
 
 	return result
 
-#analyse joysound search result table cell to NUMBER & TEXT
+# analyse joysound search result table cell to NUMBER & TEXT
 def analyseTd( dom, regex ):
 	a = dom.find('a')
 	if not a: return [0, '']
