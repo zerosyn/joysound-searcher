@@ -1,3 +1,8 @@
+function buildQuery( query ){
+	//TODO 参数排序
+	return '#mod=qry&' + query.handleSpace();
+}
+
 var JSQuery = function( keyword, searchtype, liketype ){
 	this.RUNNING = 1;
 	this.FETCHED = 2;
@@ -13,7 +18,7 @@ var JSQuery = function( keyword, searchtype, liketype ){
 
 	this.retry = 0;
 
-	this.hash = HashManager.buildQuery( $.param({ keyword: this.keyword, liketype: this.liketype, searchtype: this.searchtype }) );
+	this.hash = buildQuery( $.param({ keyword: this.keyword, liketype: this.liketype, searchtype: this.searchtype }) );
 };
 JSQuery.prototype = {
 	toParams: function(){
@@ -72,8 +77,8 @@ JSQuery.prototype = {
 		}
 	},
 	hasNext: function(){
-		if( this.status === this.FETCHED && this.count ){
-			return this.page < Math.floor( this.count / 20 ) + 1;
+		if( this.status === this.FETCHED && this.count > 0 ){
+			return this.page < Math.ceil( this.count / 20 );
 		}
 		return false;
 	},

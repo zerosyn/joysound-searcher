@@ -41,8 +41,6 @@ var UINav = (function(){
 	};
 }());
 
-// var jslink_song = 'http://joysound.com/ex/search/song.htm?gakkyokuId=';
-// var jslink_artist = 'http://joysound.com/ex/search/artist.htm?artistId=';
 var UIResult = (function(){
 	var dom = $('#result');
 
@@ -65,14 +63,14 @@ var UIResult = (function(){
 			}
 		}
 		return '<li class="qry ' + cls + '" id="' + qry.hash + '">' + 
-					'<p class="major"><span>【<em>' + qry.getKeyword() + '</em>】</span></p>' +
+					'<p class="major"><span>【<em>' + qry.getKeyword().toNbsp() + '</em>】</span></p>' +
 					'<p class="minor"><span><em>' + text + '</em></span></p>' +
 					'<p class="right"><a class="remove" href="##">&nbsp;×&nbsp;</a></p>' +
 				'</li>';
 	}
 	function _renderSong( row ){
 		var cls = '';
-		var song_no = row.song_no ? row.song_no : '...';
+		var song_no = row.song_no || '...';
 		if( !song_no ){ cls = 'loading'; }
 		else if( row.v2_flag == 2 ){ cls = 'exist'; }
 		else if( row.v2_flag == 1 ){ cls = 'notexist'; }
@@ -83,10 +81,14 @@ var UIResult = (function(){
 				'</li>';
 	}
 	function _renderMore(){
-		return '<li class="more"><p><span><a href="##">Load more</a></span></p></li>';
+		return '<li class="more"><p><span><a class="more" href="##">Load more</a></span></p>' + 
+					'<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>' +
+				'</li>';
 	}
 	function _renderLoadingMore(){
-		return '<li class="more"><p><span><em>Loading more ...</em></span></p></li>';
+		return '<li class="more"><p><span><em>Loading more ...</em></span></p>' +
+					'<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>' +
+				'</li>';
 	}
 	function _renderResult( qry ){
 		var html = '';
@@ -119,14 +121,11 @@ var UIResult = (function(){
 		_changeTitle( '' );
 		dom.html( html );
 		_resetBackgroundColor();
-		//TODO abstract
-		//UIFooter.randomTip();
 	}
 	function showQuery( qry ){
 		_changeTitle( qry.getTitle() );
 		dom.html( _renderQuery( qry, true ) + _renderResult( qry ) );
 		_resetBackgroundColor();
-		//UIFooter.hideTip();
 	}
 
 	return {
@@ -136,41 +135,35 @@ var UIResult = (function(){
 }());
 
 var UIFooter = (function(){
-	var help_dom = $('#help');
 	var tip_dom = $('#tips');
-	var tips = [
-		'<a id="tip_first">初次使用请戳我</a>',
-		'可以用Safari将<em>もえゴエ</em>添加到主屏幕哦^^',
-		'部分曲目编号需要多Loading一段时间，不妨去喝杯红茶吧',
-		'天朝曲目更新不及时，遇到 <em>曲がありません</em> 请怪時臣XD',
-		'<em>もえゴエ</em>没有加感叹号的原因是为了在iOS主屏更加美观' + '>_<'.htmlEntities(),
-		'歌手与番組搜索正在开发中，お楽しみに'
-	];
+	var tip_content = tip_dom.find('.content');
 	var current_tip_id = 0;
+	var tips = [
+		'<em>もえゴエ</em> へようこそ',
+		'部分曲目编号需要多Loading一段时间，不妨去喝杯红茶吧' + '( ˊ_>ˋ)'.htmlEntities(),
+		'天朝曲库更新不及时，遇到「<em class="red">曲がありません</em>」请怪時臣(´・ω・`)',
+		'「<em>もえゴエ</em>」没有加感叹号的原因只是为了在iOS主屏显示更美观' + '>_<'.htmlEntities(),
+		'歌手与番組搜索正在开发中，お楽しみに',
+		'任何问题、意见请在新浪微博<em>@moegoe</em>'
+	];
+	if( browser.ios ){
+		tips.push( '可以用Safari将 <em>もえゴエ</em> 添加到主屏幕哦~' );
+	}
 
 	function randomTip(){
 		//no random at first time
-		if( tip_dom.html() ){
+		if( tip_content.html() ){
 			current_tip_id += Math.floor( Math.random() * ( tips.length - 1 ) ) + 1;
 			current_tip_id %= tips.length;
 		}
-		tip_dom.html( tips[current_tip_id] );
-		tip_dom.show();
+		tip_content.html( tips[current_tip_id] );
 	}
 	function hideTip(){
 		tip_dom.hide();
 	}
-	function showHelp(){
-		help_dom.show();
-	}
-	function hideHelp(){
-		help_dom.hide();
-	}
 
 	return {
 		randomTip: randomTip,
-		hideTip: hideTip,
-		showHelp: showHelp,
-		hideHelp: hideHelp
+		hideTip: hideTip
 	};
 }());

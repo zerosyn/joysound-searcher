@@ -1,3 +1,17 @@
+var browser = (function(){
+	var ua = navigator.userAgent.toLowerCase();
+	var feature = {
+		fuckie: (ua.indexOf('msie') != -1) ? ua.match(/msie (\d+)(\.\d+)?/i)[1] < 9 : false,
+		firefox: (ua.indexOf('firefox') != -1),
+		ios: (ua.indexOf('iphone') != -1 || ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1),
+		android: (ua.indexOf('android') != -1),
+		mobile: 'ontouchstart' in document.documentElement,
+		historyapi: 'replaceState' in window.history
+	}
+	feature.supportfixed = feature.ios ? ua.match(/os (\d)_/i)[1] > 4 : true;
+	return feature;
+}());
+
 function parseQuery( query ){
 	var params = query.split('&');
 	var p = [], key = '', value = '';
@@ -13,10 +27,13 @@ function parseQuery( query ){
 
 //把加号改成空格，以正确处理keyword
 String.prototype.handleSpace = function(){
-	return this.replace(/\+/g,'%20');
+	return this.replace(/\+/g, '%20');
 }
 String.prototype.htmlEntities = function(){
     return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+String.prototype.toNbsp = function(){
+	return this.replace(/ /g, '&nbsp;')
 }
 
 $.prototype.toggleClassBy = function( condition, cls ){
@@ -29,37 +46,33 @@ $.prototype.toggleClassBy = function( condition, cls ){
 
 var HashManager = (function(){
 	function isEmpty(){
-		return !location.hash || location.hash == '#' || location.hash == '##';
+		return !window.location.hash || window.location.hash == '#';
 	}
 	function current(){
 		//由于gecko的地址已经解码，而webkit是原始状态，故先解码（不影响gecko）再编码以统一
-		//TODO optimize using browser check
-		return encodeURI( decodeURI( location.hash ) );
-	}
-	function buildQuery( query ){
-		return '#mod=qry&' + query.handleSpace();
-	}
-	function query( query ){
-		push( buildQuery( query ) );
+		//return encodeURI( decodeURI( location.hash ) );
+		return browser.firefox ? encodeURI( window.location.hash ) : window.location.hash;
 	}
 	function push( hash ){
 		window.location.hash = hash;
 	}
+	//不触发hashchange事件的地址替换
 	function replace( hash ){
-		//不会触发hashchange事件
-		window.history.replaceState( {}, '', hash );
+		//放弃ie9和android3、4
+		if( browser.historyapi ){
+			window.history.replaceState( {}, '', hash );
+		}
 	}
 	function refresh( hash ){
-		if( hash ){
-			replace( hash );
+		if( hash !== undefined && hash != current() ){
+			window.location.hash = hash;
+		} else {
+			$(window).hashchange();
 		}
-		$(window).hashchange();
 	}
 	var fns = {
 		isEmpty: isEmpty,
 		current: current,
-		buildQuery: buildQuery,
-		query: query,
 		push: push,
 		replace: replace,
 		refresh: refresh
@@ -70,7 +83,6 @@ var HashManager = (function(){
 //拆分callback，数据处理部分必执行，界面处理部分在hash没变时才执行
 function AjaxCall( hash, params, complete_fn, success_fn ){
 	var host = 'http://moegoe.co.cc/seek';
-	// var host = 'http://127.0.0.1:8080/';
 	if( typeof params !== 'string' ){
 		params = $.param( params );
 	}

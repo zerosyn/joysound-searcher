@@ -56,10 +56,12 @@ var Controller = (function(){
 	}
 	function search(e){
 		e.preventDefault();
-		if( $.trim( $('#keyword').val() ) ){
-			HashManager.query( $('nav form').serialize() );
-		} else {
-			UINav.hideSearchOption();
+		UINav.hideSearchOption();
+		var kwd = $('#keyword');
+		var value = $.trim( kwd.val() );
+		kwd.val( value );
+		if( value ){
+			HashManager.push( buildQuery( $('nav form').serialize() ) );
 		}
 		return false;
 	}
@@ -138,23 +140,53 @@ var Controller = (function(){
 	};
 }());
 
+var tap_event = browser.mobile ? 'tapped' : 'click';
+/*$.prototype.doubletap = function( callback ){
+	var threshold = 1000;
+	var threshold_dist = 20;
+	var last = {};
+	this.on( 'tapped', function(e, data){
+		//console.log(data.gesture_detected.time);
+		if( last.time ){
+			if( data.gesture_detected.time - last.time < threshold &&
+				Math.abs(data.gesture_detected.x - last.x) < threshold_dist &&
+				Math.abs(data.gesture_detected.y - last.y) < threshold_dist ){
+				last = {};
+				callback();
+				return;
+			}
+		}
+		last.time = data.gesture_detected.time;
+		last.x = data.gesture_detected.x;
+		last.y = data.gesture_detected.y;
+	});
+}
+$("#result").doubletap( function(){alert('dbltap');} );*/
 $("#keyword").on( 'keyup change', UINav.resetCleanBtn );
 $("#keyword").on( 'focus', UINav.showSearchOption );
-$("nav").on( 'touchend click', stopBubble );
-$("body").on( 'touchend click', UINav.hideSearchOption );
-$("nav span.clean").on( 'click', UINav.cleanKeyword );
-$("#nav_bottom .option_group").on( 'touchend click', 'a.option', UINav.switchOption );
-$("#submit").on( 'click', Controller.search );
-$("#result").on( 'click', 'li.qry', Controller.foldQry );
-$("#result").on( 'click', 'a.remove', Controller.removeQry );
-$("#result").on( 'click', 'a.retry', Controller.retryQry );
-$("#result").on( 'click', 'li.more a', Controller.loadMore );
-$('#tips').on( 'touchend click', UIFooter.randomTip );
-$('#tips').on( 'click', '#tip_first', UIFooter.showHelp );
-$('#help').on( 'click', UIFooter.hideHelp );
+$("nav").on( tap_event, stopBubble );
+$("body").on( tap_event, UINav.hideSearchOption );
+$("nav span.clean").on( tap_event, UINav.cleanKeyword );
+$("#nav_bottom .option_group").on( tap_event, 'a.option', UINav.switchOption );
+$("form").on( 'submit', Controller.search );
+$("#result").on( tap_event, 'li.qry', Controller.foldQry );
+$("#result").on( tap_event, 'a.fold', Controller.foldQry );
+$("#result").on( tap_event, 'a.remove', Controller.removeQry );
+$("#result").on( tap_event, 'a.retry', Controller.retryQry );
+$("#result").on( tap_event, 'a.more', Controller.loadMore );
 $(window).hashchange( Controller.analyseHash );
 
 $(function(){
+	if( browser.fuckie ){
+		$('body').html("<div id='fuckie'>古董浏览器是无法正常访问本站的哟~</div>");
+		return;
+	}
 	UINav.resetCleanBtn();
 	HashManager.refresh();
+	//tips
+	UIFooter.randomTip();
+	var tip_trigger = setInterval( UIFooter.randomTip, 30000 );
+	// var stop_trigger = function(e){ UIFooter.hideTip(); clearInterval( tip_trigger ); stopBubble(e); };
+	// $("#tips .close").on( tap_event, stop_trigger );
+	$("#tips").on( tap_event, UIFooter.randomTip );
 });

@@ -1,3 +1,23 @@
+@media screen and (min-width: 768px) {
+	html{ padding-left:50%; background-color:#111; }
+	body{ width:768px; margin-left:-384px; box-shadow:0 0 10px 5px #000; -webkit-box-shadow:0 0 10px 5px #000; }
+	nav{ max-width:768px; }
+	footer{ max-width:768px; }
+}
+@media screen and (max-width: 768px) {
+	body{ width:100%; }
+}
+/*@media screen and (max-width: 480px) {
+	html{ padding-left:50%; background-color:#111; }
+	body{ width:320px; margin-left:-160px; box-shadow:0 0 10px 5px #000; -webkit-box-shadow:0 0 10px 5px #000; }
+}*/
+@media screen and (min-height: 600px) {
+	section{ padding-bottom:42px; }
+}
+@media screen and (max-height: 600px) {
+	footer{ display:none !important; }
+}
+
 * { margin:0; padding:0; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-text-size-adjust:none; }
 html, body{ height:100%; }
 body{ font-family:Helvetica,微软雅黑,黑体,Arial; }
@@ -12,23 +32,24 @@ input[type=search]{ -webkit-appearance: none; }
 input[type=search]::-webkit-search-decoration, input[type=search]::-webkit-search-cancel-button{ display: none; }
 
 .hide{ display:none; }
+.shadow{ box-shadow:0 0 3px #000; -webkit-box-shadow:0 0 3px #000; }
 
 body{ position:relative; }
-nav{ position:absolute; width:100%; min-height:40px; z-index:1000; background-color:#444; border-bottom:1px solid #000; /*box-shadow:1px 3px 3px rgba(0,0,0,.6); -webkit-box-shadow:1px 3px 3px rgba(0,0,0,.6);*/ }
+nav{ position:fixed; width:100%; min-height:40px; z-index:1000; background-color:#444; /*border-bottom:1px solid #000;*/ }
 nav .bar{ padding:12px 10px; }
 nav form{ position:relative; padding-right:40px; }
 #keyword, #submit{ height:40px; }
 #keyword{ padding-left:5px; width:100%; border-radius:3px 0 0 3px; }
-#submit{ position:absolute; top:0; right:0; width:40px; background:url(search.png) no-repeat #efe; border-radius:0 3px 3px 0; cursor:pointer; }
+#submit{ position:absolute; top:0; right:0; width:40px; background:url(search.png) no-repeat #e3ffe3; border-radius:0 3px 3px 0; cursor:pointer; }
 nav span.clean{ position:absolute; top:50%; right:40px; margin-top:-21px; padding:5px; font-size:26px; cursor:pointer; }
 nav.nofocus span.clean, nav span.clean.disable{ display:none; }
 nav.nofocus #nav_bottom{ display:none; }
 #nav_bottom{ /*-webkit-transition:visibility 1s ease-in .1s;*/ }
 #nav_bottom li{ margin-top:12px; }
-#nav_bottom li table{ background-color:#efe; width:100%; table-layout:fixed; border-radius:3px; }
+#nav_bottom li table{ background-color:#e3ffe3; width:100%; table-layout:fixed; border-radius:3px; }
 #nav_bottom li td{ text-align:center; }
 #nav_bottom a.option{ width:100%; padding:7px 0 7px 0; display:block; cursor:pointer; }
-#nav_bottom a.selected{ background-color:#aea; border-radius:3px; }
+#nav_bottom a.selected{ background-color:#9e9; border-radius:3px; }
 
 section{ padding-top:65px; }
 #result{ width:100%; }
@@ -43,7 +64,7 @@ body.even{ background-color:#dbdbdb; }
 #result a{ padding:5px; color:#05b; }
 #result a:hover{ background-color:rgba(100,100,100,0.2); border-radius:3px 3px 3px 3px; }
 
-#result li.qry { font-weight:bold; }
+#result li.qry{ font-weight:bold; }
 #result li.qry a.retry{ color:#c00; text-align:center; }
 #result li.qry.active a.remove{ display:none; }
 #result li.more{ padding:5px; text-align:center; font-weight:bold; }
@@ -56,19 +77,11 @@ body.even{ background-color:#dbdbdb; }
 #result p.right.notexist{ color:#900; }
 #result p span{ padding:5px; display:block; }
 
-footer{ position:absolute; bottom:0; width:100%; background-color:#cedbce; }
-footer #tips{ padding:10px; text-align:center; }
+footer{ position:fixed; bottom:0; width:100%; height:42px; background-color:rgba(44, 44, 44, 0.9); }
+footer #tips{ position:relative; padding:10px; text-align:center; color:#ccc; }
+footer #tips em{ font-style:normal; color:#9e9; }
+footer #tips em.red{ color:#e77; }
+footer #tips a.close{ position:absolute; right:10px; padding:0 5px; height:24px; color:#777; }
+footer #tips a:hover{ background-color:rgba(100,100,100,0.2); border-radius:3px 3px 3px 3px; }
 
-@media screen and (min-width: 768px) {
-	body{ width: 480px; }
-}
-@media screen and (max-width: 768px) {
-	body{ width: 100%; }
-}
-/*@media screen and (max-width: 480px) {
-	body{ width: 480px; max-width: 480px; }
-}
-@media screen and (max-width: 320px) {
-	body{ width: 320px; max-width: 320px; }
-}
-*/
+#fuckie{ margin-top:50px; text-align:center; font-size:30px; font-weight:bold; }
