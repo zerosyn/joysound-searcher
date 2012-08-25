@@ -140,47 +140,26 @@ var Controller = (function(){
 	};
 }());
 
-var tap_event = browser.mobile ? 'tapped' : 'click';
-/*$.prototype.doubletap = function( callback ){
-	var threshold = 1000;
-	var threshold_dist = 20;
-	var last = {};
-	this.on( 'tapped', function(e, data){
-		//console.log(data.gesture_detected.time);
-		if( last.time ){
-			if( data.gesture_detected.time - last.time < threshold &&
-				Math.abs(data.gesture_detected.x - last.x) < threshold_dist &&
-				Math.abs(data.gesture_detected.y - last.y) < threshold_dist ){
-				last = {};
-				callback();
-				return;
-			}
-		}
-		last.time = data.gesture_detected.time;
-		last.x = data.gesture_detected.x;
-		last.y = data.gesture_detected.y;
-	});
-}
-$("#result").doubletap( function(){alert('dbltap');} );*/
-$("#keyword").on( 'keyup change', UINav.resetCleanBtn );
-$("#keyword").on( 'focus', UINav.showSearchOption );
-$("nav").on( tap_event, stopBubble );
-$("body").on( tap_event, UINav.hideSearchOption );
-$("nav span.clean").on( tap_event, UINav.cleanKeyword );
-$("#nav_bottom .option_group").on( tap_event, 'a.option', UINav.switchOption );
-$("form").on( 'submit', Controller.search );
-$("#result").on( tap_event, 'li.qry', Controller.foldQry );
-$("#result").on( tap_event, 'a.fold', Controller.foldQry );
-$("#result").on( tap_event, 'a.remove', Controller.removeQry );
-$("#result").on( tap_event, 'a.retry', Controller.retryQry );
-$("#result").on( tap_event, 'a.more', Controller.loadMore );
-$(window).hashchange( Controller.analyseHash );
-
 $(function(){
+	var tap_event = browser.mobile ? 'tap' : 'click';
 	if( browser.fuckie ){
 		$('body').html("<div id='fuckie'>古董浏览器是无法正常访问本站的哟~</div>");
 		return;
 	}
+	$("#keyword").on( 'keyup change', UINav.resetCleanBtn );
+	$("#keyword").on( 'focus', UINav.showSearchOption );
+	$("nav").on( tap_event, stopBubble );
+	$("body").on( tap_event, UINav.hideSearchOption );
+	$("nav span.clean").on( tap_event, UINav.cleanKeyword );
+	$("#nav_bottom .option_group").on( tap_event, 'a.option', UINav.switchOption );
+	$("form").on( 'submit', Controller.search );
+	$("#result").on( tap_event, 'li.qry', Controller.foldQry );
+	$("#result").on( tap_event, 'a.fold', Controller.foldQry );
+	$("#result").on( tap_event, 'a.remove', Controller.removeQry );
+	$("#result").on( tap_event, 'a.retry', Controller.retryQry );
+	$("#result").on( tap_event, 'a.more', Controller.loadMore );
+	$(window).hashchange( Controller.analyseHash );
+
 	UINav.resetCleanBtn();
 	HashManager.refresh();
 	//tips
