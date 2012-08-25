@@ -52,6 +52,8 @@ var Controller = (function(){
 					UIResult.showQuery( qry );
 				}
 			);
+		} else {
+			UIResult.showQuery( qry );
 		}
 	}
 	function search(e){
