@@ -29,6 +29,10 @@ function parseQuery( query ){
 String.prototype.handleSpace = function(){
 	return this.replace(/\+/g, '%20');
 }
+//处理地址栏编码中遗漏的逗号
+String.prototype.encodeURIPlus = function(){
+	return encodeURI( this ).replace(/,/g, '%2C')
+}
 String.prototype.htmlEntities = function(){
     return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -49,9 +53,8 @@ var HashManager = (function(){
 		return !window.location.hash || window.location.hash == '#';
 	}
 	function current(){
-		//由于gecko的地址已经解码，而webkit是原始状态，故先解码（不影响gecko）再编码以统一
-		//return encodeURI( decodeURI( location.hash ) );
-		return browser.firefox ? encodeURI( window.location.hash ) : window.location.hash;
+		//由于firefox的地址已经解码，而webkit是原始状态，故firefox要重新编码以统一
+		return browser.firefox ? window.location.hash.encodeURIPlus() : window.location.hash;
 	}
 	function push( hash ){
 		window.location.hash = hash;
