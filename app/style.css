@@ -69,7 +69,8 @@ body.even{ background-color:#dbdbdb; }
 #result li.qry.active a.remove{ display:none; }
 #result li.more{ padding:5px; text-align:center; font-weight:bold; }
 
-#result p{ vertical-align:middle; line-height:26px; display:inline-block; }
+#result{ font-size:0; }
+#result p{ vertical-align:middle; line-height:26px; display:inline-block; font-size:16px; }
 #result p.major{ width:65%; }
 #result p.minor{ width:35%; }
 #result p.right{ position:absolute; right:10px; top:50%; width:60px; margin-top:-13px; text-align:right; }

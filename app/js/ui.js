@@ -45,50 +45,41 @@ var UIResult = (function(){
 	var dom = $('#result');
 
 	function _renderQuery( qry, active ){
-		var cls = '', text = '';
+		var data = {
+			hash: qry.hash,
+			title: qry.getKeyword().toNbsp(),
+			cls: '',
+			text: ''
+		};
 		switch( qry.status ){
-			case qry.RUNNING: cls = 'running'; break;
-			case qry.ERROR: cls = 'error'; break;
+			case qry.RUNNING: data.cls = 'running'; break;
+			case qry.ERROR: data.cls = 'error'; break;
 		}
 		if( active ){
-			cls += ' active';
+			data.cls += ' active';
 		}
-		if( qry.count ) {
-			text = String( qry.count ) + ' results';
+		if( qry.count ){
+			data.text = String( qry.count ) + ' results';
 		} else {
 			switch( qry.status ){
-				case qry.FETCHED: text = 'No result'; break;
-				case qry.RUNNING: text = 'Running'; break;
-				case qry.ERROR: text = '<a class="retry" href="##">Retry</a>'; break;
+				case qry.FETCHED: data.text = 'No result'; break;
+				case qry.RUNNING: data.text = 'Running'; break;
+				case qry.ERROR: data.text = '<a class="retry" href="##">Retry</a>'; break;
 			}
 		}
-		return '<li class="qry ' + cls + '" id="' + qry.hash + '">' + 
-					'<p class="major"><span>【<em>' + qry.getKeyword().toNbsp() + '</em>】</span></p>' +
-					'<p class="minor"><span><em>' + text + '</em></span></p>' +
-					'<p class="right"><a class="remove" href="##">&nbsp;×&nbsp;</a></p>' +
-				'</li>';
+		return template( 'tpl_qry', data );
 	}
 	function _renderSong( row ){
-		var cls = '';
-		var song_no = row.song_no || '...';
-		if( !song_no ){ cls = 'loading'; }
-		else if( row.v2_flag == 2 ){ cls = 'exist'; }
-		else if( row.v2_flag == 1 ){ cls = 'notexist'; }
-		return '<li>' +
-					'<p class="major"><span>' + row.title + '</span></p>' +
-					'<p class="minor"><span>' + row.artist + '</span></p>' +
-					'<p class="right ' + cls + '">' + song_no + '</p>' +
-				'</li>';
-	}
-	function _renderMore(){
-		return '<li class="more"><p><span><a class="more" href="##">Load more</a></span></p>' + 
-					'<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>' +
-				'</li>';
-	}
-	function _renderLoadingMore(){
-		return '<li class="more"><p><span><em>Loading more ...</em></span></p>' +
-					'<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>' +
-				'</li>';
+		var data = {
+			title: row.title,
+			artist: row.artist,
+			cls: '',
+			song_no: row.song_no || '...'
+		}
+		if( !row.song_no ){ data.cls = 'loading'; }
+		else if( row.v2_flag == 2 ){ data.cls = 'exist'; }
+		else if( row.v2_flag == 1 ){ data.cls = 'notexist'; }
+		return template( 'tpl_song', data );
 	}
 	function _renderResult( qry ){
 		var html = '';
@@ -98,9 +89,9 @@ var UIResult = (function(){
 				html += _renderSong( qry.list[i] );
 			}
 			if( qry.status === qry.RUNNING && qry.page > 0 ){
-				html += _renderLoadingMore();
+				html += template( 'tpl_loadingmore', {} );
 			} else if( qry.hasNext() ){
-				html += _renderMore();
+				html += template( 'tpl_more', {} );
 			}
 		}
 		return html;

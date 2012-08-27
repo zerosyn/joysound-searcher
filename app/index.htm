@@ -44,9 +44,35 @@
 		</p>
 	</footer>
 
+	<script id="tpl_qry" type="text/html">
+		<li class="qry <%= cls %>" id="<%= hash %>">
+			<p class="major"><span>【<em><%= title %></em>】</span></p>
+			<p class="minor"><span><em><%= text %></em></span></p>
+			<p class="right"><a class="remove" href="##">&nbsp;×&nbsp;</a></p>
+		</li>
+	</script>
+	<script id="tpl_song" type="text/html">
+		<li>
+			<p class="major"><span><%= title %></span></p>
+			<p class="minor"><span><%= artist %></span></p>
+			<p class="right <%= cls %>"><%= song_no %></p>
+		</li>
+	</script>
+	<script id="tpl_more" type="text/html">
+		<li class="more"><p><span><a class="more" href="##">Load more</a></span></p>
+			<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>
+		</li>
+	</script>
+	<script id="tpl_loadingmore" type="text/html">
+		<li class="more"><p><span><em>Loading more ...</em></span></p>
+			<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>
+		</li>
+	</script>
+
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery.ba-hashchange.min.js"></script>
 	<script src="js/zepto.min.js"></script>
+	<script src="js/template.min.js"></script>
 	<script src="js/core.js"></script>
 	<script src="js/data.js"></script>
 	<script src="js/ui.js"></script>
