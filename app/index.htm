@@ -45,9 +45,13 @@
 	</footer>
 
 	<script id="tpl_qry" type="text/html">
-		<li class="qry <%= cls %>" id="<%= hash %>">
-			<p class="major"><span>【<em><%= title %></em>】</span></p>
-			<p class="minor"><span><em><%= text %></em></span></p>
+		<li class="qry <% if( status == RUNNING ){ %>running<% } %>" id="<%= hash %>">
+			<p class="major"><span>【<em><%= keyword_fmt.toNbsp() %></em>】</span></p>
+			<p class="minor"><span><em><% if( count ){ %><%= count %> results<% }
+				else if( status == FETCHED ){ %>No result<% }
+				else if( status == RUNNING ){ %>Running<% }
+				else if( status == ERROR ){ %><a class="retry" href="##">Retry</a><% }
+			%></em></span></p>
 			<p class="right"><a class="remove" href="##">&nbsp;×&nbsp;</a></p>
 		</li>
 	</script>
@@ -55,18 +59,31 @@
 		<li>
 			<p class="major"><span><%= title %></span></p>
 			<p class="minor"><span><%= artist %></span></p>
-			<p class="right <%= cls %>"><%= song_no %></p>
+			<p class="right <% if( !song_no ){ %>loading<% }
+				else if( v2_flag == 2 ){ %>exist<% }
+				else if( v2_flag == 1 ){ %>notexist<% }
+			%>"><%= song_no || '...' %></p>
 		</li>
 	</script>
 	<script id="tpl_more" type="text/html">
-		<li class="more"><p><span><a class="more" href="##">Load more</a></span></p>
+		<% if( enabled || loading ){ %>
+		<li class="more">
+			<% if( loading ){ %>
+				<p><span><em>Loading more ...</em></span></p>
+			<% } else { %>
+				<p><span><a class="more" href="##">Load more</a></span></p>
+			<% } %>
 			<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>
 		</li>
+		<% } %>
 	</script>
-	<script id="tpl_loadingmore" type="text/html">
-		<li class="more"><p><span><em>Loading more ...</em></span></p>
-			<p class="right"><a class="fold" href="##">&nbsp;×&nbsp;</a></p>
-		</li>
+	<script id="tpl_result" type="text/html">
+		<%= include( 'tpl_qry', qry ) %>
+		<% for( var i in qry.list ) %><%= include( 'tpl_song', qry.list[i] ) %>
+		<%= include( 'tpl_more', qry.more ) %>
+	</script>
+	<script id='tpl_list' type="text/html">
+		<% for( var i in list ) %><%= include( 'tpl_qry', list[i] ) %>
 	</script>
 
 	<script src="js/jquery.js"></script>

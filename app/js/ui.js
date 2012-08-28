@@ -44,58 +44,6 @@ var UINav = (function(){
 var UIResult = (function(){
 	var dom = $('#result');
 
-	function _renderQuery( qry, active ){
-		var data = {
-			hash: qry.hash,
-			title: qry.getKeyword().toNbsp(),
-			cls: '',
-			text: ''
-		};
-		switch( qry.status ){
-			case qry.RUNNING: data.cls = 'running'; break;
-			case qry.ERROR: data.cls = 'error'; break;
-		}
-		if( active ){
-			data.cls += ' active';
-		}
-		if( qry.count ){
-			data.text = String( qry.count ) + ' results';
-		} else {
-			switch( qry.status ){
-				case qry.FETCHED: data.text = 'No result'; break;
-				case qry.RUNNING: data.text = 'Running'; break;
-				case qry.ERROR: data.text = '<a class="retry" href="##">Retry</a>'; break;
-			}
-		}
-		return template( 'tpl_qry', data );
-	}
-	function _renderSong( row ){
-		var data = {
-			title: row.title,
-			artist: row.artist,
-			cls: '',
-			song_no: row.song_no || '...'
-		}
-		if( !row.song_no ){ data.cls = 'loading'; }
-		else if( row.v2_flag == 2 ){ data.cls = 'exist'; }
-		else if( row.v2_flag == 1 ){ data.cls = 'notexist'; }
-		return template( 'tpl_song', data );
-	}
-	function _renderResult( qry ){
-		var html = '';
-		var i;
-		if( qry.list ){
-			for( i in qry.list ){
-				html += _renderSong( qry.list[i] );
-			}
-			if( qry.status === qry.RUNNING && qry.page > 0 ){
-				html += template( 'tpl_loadingmore', {} );
-			} else if( qry.hasNext() ){
-				html += template( 'tpl_more', {} );
-			}
-		}
-		return html;
-	}
 	function _changeTitle( title ){
 		document.title = title || 'もえゴエ';
 	}
@@ -104,18 +52,14 @@ var UIResult = (function(){
 		$('body').toggleClassBy( li_num_odd, 'even' );
 	}
 	function showQryList( list ){
-		var html = '';
-		var i;
-		for( i in list ){
-			html += _renderQuery( list[i] );
-		}
 		_changeTitle( '' );
-		dom.html( html );
+		dom.html( template( 'tpl_list', { list: list } ) );
 		_resetBackgroundColor();
 	}
 	function showQuery( qry ){
-		_changeTitle( qry.getTitle() );
-		dom.html( _renderQuery( qry, true ) + _renderResult( qry ) );
+		_changeTitle( qry.title_fmt );
+		dom.html( template( 'tpl_result', { qry: qry } ) );
+		dom.find('.qry').addClass('active');
 		_resetBackgroundColor();
 	}
 

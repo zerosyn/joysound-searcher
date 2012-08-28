@@ -21,7 +21,7 @@ var JSQuery = function( keyword, searchtype, liketype ){
 	this.hash = buildQuery( $.param({ keyword: this.keyword, liketype: this.liketype, searchtype: this.searchtype }) );
 };
 JSQuery.prototype = {
-	toParams: function(){
+	get params_fmt(){
 		//param for next page
 		return $.param({ mode: 1, keyword: this.keyword, liketype: this.liketype, searchtype: this.searchtype, page: this.page + 1 }).handleSpace();
 	},
@@ -76,22 +76,23 @@ JSQuery.prototype = {
 			}
 		}
 	},
-	hasNext: function(){
-		if( this.status === this.FETCHED && this.count > 0 ){
-			return this.page < Math.ceil( this.count / 20 );
-		}
-		return false;
-	},
-	getKeyword: function(){
+	get keyword_fmt(){
 		var kwd = this.keyword;
 		switch( this.liketype ){
-			case '1': kwd = kwd + ' *'; break;
+			case '1': kwd += ' *'; break;
 			case '2': kwd = '* ' + kwd + ' *'; break;
 		}
 		return kwd;
 	},
-	getTitle: function(){
-		return '【' + this.getKeyword() + '】- Joysound Search';
+	get title_fmt(){
+		return '【' + this.keyword_fmt + '】- Joysound Search';
+	},
+	get more(){
+		return {
+			enabled: ( this.status === this.FETCHED && this.count > 0 ) ?
+				this.page < Math.ceil( this.count / 20 ) : false,
+			loading: ( this.status === this.RUNNING && this.page > 0 )
+		}
 	}
 };
 

@@ -30,7 +30,7 @@ var Controller = (function(){
 	function _runQuery( qry ){
 		qry.setRunning();
 		UIResult.showQuery( qry );
-		AjaxCall( qry.hash, qry.toParams(),
+		AjaxCall( qry.hash, qry.params_fmt,
 			function( data ){
 				qry.appendResult( data );
 				_loadDetail( qry );
@@ -101,7 +101,7 @@ var Controller = (function(){
 		e.preventDefault();
 		var hash = HashManager.current();
 		var qry = JSHistory.get( hash );
-		if( qry && qry.hasNext() ){
+		if( qry && qry.more.enabled ){
 			_runQuery( qry );
 		}
 	}
