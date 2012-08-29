@@ -151,7 +151,7 @@ $(function(){
 	$("#keyword").on( 'keyup change', UINav.resetCleanBtn );
 	$("#keyword").on( 'focus', UINav.showSearchOption );
 	$("nav").on( tap_event, stopBubble );
-	$("body").on( tap_event, UINav.hideSearchOption );
+	$("html").on( tap_event, UINav.hideSearchOption );
 	$("nav span.clean").on( tap_event, UINav.cleanKeyword );
 	$("#nav_bottom .option_group").on( tap_event, 'a.option', UINav.switchOption );
 	$("form").on( 'submit', Controller.search );
@@ -160,6 +160,7 @@ $(function(){
 	$("#result").on( tap_event, 'a.remove', Controller.removeQry );
 	$("#result").on( tap_event, 'a.retry', Controller.retryQry );
 	$("#result").on( tap_event, 'a.more', Controller.loadMore );
+	$("#result").on( 'doubleTap swipeDown', function(){ HashManager.push(''); } );
 	$(window).hashchange( Controller.analyseHash );
 
 	UINav.resetCleanBtn();

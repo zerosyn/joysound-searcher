@@ -35,7 +35,7 @@ input[type=search]::-webkit-search-decoration, input[type=search]::-webkit-searc
 .shadow{ box-shadow:0 0 3px #000; -webkit-box-shadow:0 0 3px #000; }
 
 body{ position:relative; }
-nav{ position:fixed; width:100%; min-height:40px; z-index:1000; background-color:#444; /*border-bottom:1px solid #000;*/ }
+nav{ position:absolute; width:100%; min-height:40px; z-index:1000; background-color:#444; /*border-bottom:1px solid #000;*/ }
 nav .bar{ padding:12px 10px; }
 nav form{ position:relative; padding-right:40px; }
 #keyword, #submit{ height:40px; }
