@@ -35,7 +35,7 @@ input[type=search]::-webkit-search-decoration, input[type=search]::-webkit-searc
 .shadow{ box-shadow:0 0 3px #000; -webkit-box-shadow:0 0 3px #000; }
 
 body{ position:relative; }
-nav{ position:absolute; width:100%; min-height:40px; z-index:1000; background-color:#444; /*border-bottom:1px solid #000;*/ }
+nav{ position:fixed; width:100%; min-height:40px; z-index:1000; background-color:#444; /*border-bottom:1px solid #000;*/ }
 nav .bar{ padding:12px 10px; }
 nav form{ position:relative; padding-right:40px; }
 #keyword, #submit{ height:40px; }
@@ -66,14 +66,18 @@ body.even{ background-color:#dbdbdb; }
 
 #result li.qry{ font-weight:bold; }
 #result li.qry a.retry{ color:#c00; text-align:center; }
-#result li.qry.active a.remove{ display:none; }
+#result li.qry a.remove{ display:none; color:#c00; font-size:24px; }
+#result.mobile li.qry.removable a.remove{ display:inline; }
+#result:not(.mobile) li.qry:hover a.remove{ display:inline; }
 #result li.more{ padding:5px; text-align:center; font-weight:bold; }
 
 #result{ font-size:0; }
 #result p{ vertical-align:middle; line-height:26px; display:inline-block; font-size:16px; }
 #result p.major{ width:65%; }
 #result p.minor{ width:35%; }
-#result p.right{ position:absolute; right:10px; top:50%; width:60px; margin-top:-13px; text-align:right; }
+#result p.left, #result p.right{ position:absolute; top:50%; width:60px; margin-top:-13px; }
+#result p.left{ left:10px; text-align:left; }
+#result p.right{ right:10px; text-align:right; }
 #result p.right.exist{ color:#090; }
 #result p.right.notexist{ color:#900; }
 #result p span{ padding:5px; display:block; }

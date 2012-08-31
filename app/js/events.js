@@ -25,6 +25,9 @@ function stopBubble(e){
 
 var Controller = (function(){
 	function _findLi( dom ){
+		if( dom.hasClass('qry') ){
+			return dom;
+		}
 		return dom.parentsUntil('li').parent();
 	}
 	function _runQuery( qry ){
@@ -148,6 +151,10 @@ $(function(){
 		$('body').html("<div id='fuckie'>古董浏览器是无法正常访问本站的哟~</div>");
 		return;
 	}
+	// Disable apple's rubbish fixed
+	if( browser.ios ){
+		$("nav").css('position', 'absolute');
+	}
 	$("#keyword").on( 'keyup change', UINav.resetCleanBtn );
 	$("#keyword").on( 'focus', UINav.showSearchOption );
 	$("nav").on( tap_event, stopBubble );
@@ -160,7 +167,13 @@ $(function(){
 	$("#result").on( tap_event, 'a.remove', Controller.removeQry );
 	$("#result").on( tap_event, 'a.retry', Controller.retryQry );
 	$("#result").on( tap_event, 'a.more', Controller.loadMore );
-	$("#result").on( 'doubleTap swipeDown', function(){ HashManager.push(''); } );
+	if( browser.mobile ){
+		$("#result").addClass('mobile');
+		//$("#result").on( 'swipingRight', 'li.qry', function(e){ console.log(e.data);/*$(this).css('left');*/ } );
+		$("#result").on( 'swipeRight swipeLeft', 'li.qry', function(){ $(this).toggleClass('removable'); } );
+		$("#result").on( 'touchstart', 'li.qry:not(.removable)', function(){ $('li.qry.removable').removeClass('removable'); } );
+		$("#result").on( 'doubleTap swipeDown', function(){ HashManager.push(''); } );
+	}
 	$(window).hashchange( Controller.analyseHash );
 
 	UINav.resetCleanBtn();
