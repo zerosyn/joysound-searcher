@@ -74,16 +74,17 @@ var UIFooter = (function(){
 	var tip_content = tip_dom.find('.content');
 	var current_tip_id = 0;
 	var tips = [
-		'<em>もえゴエ</em> へようこそ',
-		'部分曲目编号需要多Loading一段时间，不妨去喝杯红茶吧' + '( ˊ_>ˋ)'.htmlEntities(),
-		'天朝曲库更新不及时，遇到「<em class="red">曲がありません</em>」请怪時臣(´・ω・`)',
-		'「<em>もえゴエ</em>」没有加感叹号的原因只是为了在iOS主屏显示更美观' + '>_<'.htmlEntities(),
-		'歌手与番組搜索正在开发中，お楽しみに',
-		'任何问题、意见请在新浪微博<em>@moegoe</em>'
+		'搜索服务已停止，此页面纯纪念 _(:з」∠)_'.htmlEntities()
+		// '<em>もえゴエ</em> へようこそ',
+		// '部分曲目编号需要多Loading一段时间，不妨去喝杯红茶吧' + '( ˊ_>ˋ)'.htmlEntities(),
+		// '天朝曲库更新不及时，遇到「<em class="red">曲がありません</em>」请怪時臣(´・ω・`)',
+		// '「<em>もえゴエ</em>」没有加感叹号的原因只是为了在iOS主屏显示更美观' + '>_<'.htmlEntities(),
+		// '歌手与番組搜索正在开发中，お楽しみに',
+		// '任何问题、意见请在新浪微博<em>@moegoe</em>'
 	];
-	if( browser.ios ){
-		tips.push( '可以用Safari将 <em>もえゴエ</em> 添加到主屏幕哦~' );
-	}
+	// if( browser.ios ){
+	// 	tips.push( '可以用Safari将 <em>もえゴエ</em> 添加到主屏幕哦~' );
+	// }
 
 	function randomTip(){
 		//no random at first time

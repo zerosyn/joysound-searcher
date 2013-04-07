@@ -1,24 +1,3 @@
-/*
-var fav_list = {};	
-$(function(){
-	var fav = $.cookie('favorite');
-	if( fav ){
-		fav_list = $.parseJSON( fav );
-	}
-});
-$("#result span.no").click(function(){
-	var no = $(this).text();
-	var li = $('#song_' + no);
-	if( fav_list[no] ){
-		delete fav_list[no];
-		li.removeClass('fav');
-	} else {
-		fav_list[no] = 1;
-		li.addClass('fav');
-	}
-	$.cookie('favorite', JSON.stringify( fav_list ), { expires: 365 });
-});
-*/
 function stopBubble(e){
 	e.stopPropagation();
 }
@@ -169,7 +148,6 @@ $(function(){
 	$("#result").on( tap_event, 'a.more', Controller.loadMore );
 	if( browser.mobile ){
 		$("#result").addClass('mobile');
-		//$("#result").on( 'swipingRight', 'li.qry', function(e){ console.log(e.data);/*$(this).css('left');*/ } );
 		$("#result").on( 'swipeRight swipeLeft', 'li.qry', function(){ $(this).toggleClass('removable'); } );
 		$("#result").on( 'touchstart', 'li.qry:not(.removable)', function(){ $('li.qry.removable').removeClass('removable'); } );
 		$("#result").on( 'doubleTap swipeDown', function(){ HashManager.push(''); } );
