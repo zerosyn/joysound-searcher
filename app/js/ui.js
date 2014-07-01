@@ -74,13 +74,16 @@ var UIFooter = (function(){
 	var tip_content = tip_dom.find('.content');
 	var current_tip_id = 0;
 	var tips = [
-		'搜索服务已停止，此页面纯纪念 _(:з」∠)_'.htmlEntities()
-		// '<em>もえゴエ</em> へようこそ',
-		// '部分曲目编号需要多Loading一段时间，不妨去喝杯红茶吧' + '( ˊ_>ˋ)'.htmlEntities(),
-		// '天朝曲库更新不及时，遇到「<em class="red">曲がありません</em>」请怪時臣(´・ω・`)',
+		'<em>もえゴエ</em> へようこそ',
+		'在这里查好 ID 直接到机器面板上点会更快的说',
+		'妈妈再也不用担心我抢不到 Joysound 点歌器了 ' + '(*´∇｀*)'.htmlEntities(),
+		'搜索结果针对歌魂的 V2 系统进行了筛选，不过不保证正确性哦',
+		'部分曲目编号需要多 Loading 一段时间，请耐心等待 ' + '( ˊ_>ˋ)'.htmlEntities(),
+		'天朝曲库更新不及时，遇到「<em class="red">曲がありません</em>」请怪時臣 (´・ω・`)',
 		// '「<em>もえゴエ</em>」没有加感叹号的原因只是为了在iOS主屏显示更美观' + '>_<'.htmlEntities(),
 		// '歌手与番組搜索正在开发中，お楽しみに',
 		// '任何问题、意见请在新浪微博<em>@moegoe</em>'
+		'本工具年久失修，有问题请望天 ╮(╯﹏╰）╭'
 	];
 	// if( browser.ios ){
 	// 	tips.push( '可以用Safari将 <em>もえゴエ</em> 添加到主屏幕哦~' );

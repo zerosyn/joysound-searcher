@@ -1,24 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-'''
-import x
-from flask import Flask, request
-
-app = Flask(__name__)
-app.debug = True
-
-@app.route('/py', methods=['GET'])
-def run():
-	keyword = request.args.get('keyword').strip().encode('utf-8')
-	like = request.args.get('liketype')
-	page = request.get('page')	
-	return x.search(keyword, like, page)
-
-if __name__ == '__main__':
-	app.run(debug=True)
-
-'''
+from gevent import wsgi
 from urlparse import parse_qs
 from urllib2 import unquote, quote
 import traceback
@@ -66,3 +49,5 @@ def application(environ, start_response):
 		start_response( status, response_headers )
 		output = callback + '(' + json.dumps( result ) + ')'
 		return [output]
+
+wsgi.WSGIServer(('', 8235), application, spawn=None).serve_forever()

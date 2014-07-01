@@ -1,3 +1,5 @@
-かつての「もえゴエ」
+### Requires:
 
-http://js.orez.me/
+* pyquery
+* MySQLdb
+* gevent
